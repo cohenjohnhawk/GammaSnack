@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title> Gamma Snacks</title>
+	</head>
+	<script type = "text/javascript"/>
+		function randomCharType(){
+			//set up an array containing the three types of character
+			let charType = new Array("Pure Strain Human", "Humanoid", "Mutant Animal");
+			//get a random number between 0 and length of array minus one
+			let charTypeNum = parseInt (Math.random() * charType.length);
+			//pick a character type from the array
+			let chosenType = charType[charTypeNum];
+			
+			//pick where the character originated from
+			let origin = new Array("Pud", "Pud", "Pud", "Pud", "Pud", "Pud", "The North", "The East", "The South", "The West");
+			let originNum = parseInt (Math.random() * origin.length);
+			let chosenOrigin = origin[originNum];
+
+			//construct the string we will provide
+			let typeString = "You are a " + chosenType + " from " + chosenOrigin;
+
+			//get a variable representing the character type on the page
+			let shownType = document.getElementById("shownType");
+			shownType.innerHTML = typeString;
+
+			return chosenType;
+		}
+		function randomDesc(){
+			//set up an array containing potential genders
+			let gender = new Array("Male", "Female", "Nonbinary");
+			//get a random number between 0 and length of array minus one
+			let genderNum = parseInt (Math.random() * gender.length);
+			//pick a gender from the array
+			let chosenGender = gender[genderNum];
+			
+			//set up an array containing potential genders
+                        let age = new Array("Young", "Old", "Decrepit","Mature","Child","Adult");
+                        //get a random number between 0 and length of array minus one
+                        let ageNum = parseInt (Math.random() * age.length);
+                        //pick a gender from the array
+                        let chosenAge = age[ageNum];
+                        
+			//set up an array containing potential genders
+                        let apparel = new Array("In Uniform", "Formal Attire", "Elaborate Attire", "Drab Clothing", "Tattered Clothing", "Messy Clothing", "Immaculate Clothing");
+                        //get a random number between 0 and length of array minus one
+                        let apparelNum = parseInt (Math.random() * apparel.length);
+                        //pick an attire from the array
+                        let chosenApparel = apparel[apparelNum];
+                        
+			//set up an array containing potential descriptor
+                        let descriptor = new Array("Tall", "Albino", "Piebald", "Short", "Obese", "Bald", "Childish", "Ailing","Scrawny", "Hairy", "Ugly", "Beautiful", "Missing Limb", "Muscular", "Greasy");
+                        //get a random number between 0 and length of array minus one
+                        let descriptorNum = parseInt (Math.random() * descriptor.length);
+                        //pick an attire from the array
+                        let chosenDescriptor = descriptor[descriptorNum];
+                        
+			//get a variable representing the characte's look on the page
+                        let shownDesc = document.getElementById("shownDesc");
+			shownDesc.innerHTML = chosenGender+ ", " + chosenAge + ", " + chosenApparel + ", " + chosenDescriptor;
+                }
+		
+		function oneDFour(){
+			return parseInt(1 + Math.random() *4);
+		}
+
+		function oneDSix(){
+			//need to generate 6 random attributes. I think I need to do this intelligently
+			return  parseInt(1 + Math.random() * 6);
+			}
+
+		function oneDHundred(){
+			return parseInt (1 + Math.random() * 100);
+		}
+
+		function threeDSix(){
+			//3d6
+			let threeSixes = parseInt(oneDSix() + oneDSix() + oneDSix());
+			//test statement
+
+			return threeSixes; 
+		}
+
+		function randomAttributes(){
+			let mentalStrength = threeDSix();
+			let intelligence = threeDSix();
+			let dexterity = threeDSix();
+			let charisma = threeDSix();
+			let constitution = threeDSix();
+			let physicalStrength = threeDSix();
+			
+			let hitPoints = 0;
+			for (let i = 0; i < constitution; i++) {
+				hitPoints += parseInt(oneDSix());
+			}
+
+			//var showTest = document.getElementById("showTest");
+			//showTest.innerHTML = mentalStrength + intelligence + dexterity;
+
+			let showAttributesFirst = document.getElementById("showAttributesFirst");
+			showAttributesFirst.innerHTML = "Mental Strength: " + mentalStrength +  " Intelligence: " + intelligence + " (" + attributeModifier(intelligence) + ")";
+
+			let showAttributesSecond = document.getElementById("showAttributesSecond");
+			showAttributesSecond.innerHTML = "Dexterity: " + dexterity + " (" + attributeModifier(dexterity) + ") Charisma: " + charisma ;
+
+			let showAttributesThird = document.getElementById("showAttributesThird");
+                        showAttributesThird.innerHTML = "Constitution: " + constitution + " Physical Strength: " + physicalStrength + " (" + attributeModifier(physicalStrength) + ")";
+
+			let showHitPoints = document.getElementById("showHitPoints");
+			showHitPoints.innerHTML = "Hit Points: " + hitPoints;
+		}
+
+		function attributeModifier(number) {
+			
+			let modifier;
+			if (number > 15){ 
+				modifier = "+" + parseInt(number - 15);
+			}
+			else if (number < 6) {
+				modifier = parseInt (number - 6);
+			}
+			else {
+				modifier = 0;
+			}
+			return modifier;
+}
+
+
+		// a function to retrieve a random mutation from the table.
+		// charType is one of "Humanoid" or "Mutant Animal"
+		// mutaType is "phys" or "ment"
+		// defectFlag is 0 for any mutation, 1 for a good mutation, -1 for a defect
+		// returns the name of the mutation
+
+		function getMutation(charType, mutaType, defectFlag) {
+			let cType = charType;
+			let mType = mutaType;
+			let dFlag = defectFlag;
+		
+
+			const humanoidPhysicalMutationArray = ["Attraction Odor (D)", "Attraction Odor (D)", "Body Structure Change (D)", "Body Structure Change (D)", "Chameleon Powers", "Density Control", "Diminished Sense (D)", "Diminished Sense (D)", "Double Physical Pain (D)", "Double Physical Pain (D)", "Electrical Generation", "Electrical Generation", "Fat Cell Accumulation (D)", "Fat Cell Accumulation (D)", "Gas Generation - Musk", "Gas Generation - Musk", "Heat Generation", "Heightened Balance", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution",  "Heightened Dexterity", "Heigthened Hearing", "Heightened Precision", "Heightened Smell", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Taste", "Heightened Touch", "Heightened Vision", "Hemophilia (D)", "Hemophilia (D)", "Increase Metabolism (D)", "Increase Metabolism (D)", "Increased Speed", "Increased Speed", "Increased Speed", "Infravision", "Light Generation", "Multiple Body Parts", "Multiple Body Parts", "New Body Parts", "New Body Pats", "New Body Parts", "New Body Parts", "New Body Parts", "No Resistance to Bacteria (D)", "No Resistance to Bacteria (D)", "No Resistance to Poison (D)", "No Resistance to Poison (D)", "No Sensory Nerve Endings (D)", "No Sensory Nerve Endings (D)", "Oversized Body Parts", "Partial Carapace", "Photosynthetic Skin", "Photosynthetic Skin", "Physical Reflection", "Poor Respiratory System (D)", "Poor Respiratory System (D)", "Quills/Spines", "Radiated Eyes","Radiated Eyes", "Regeneration", "Regeneration", "Shapechange", "Shorter", "Shorter", "Shorter", "Shorter", "Skin Structure Change (D)", "Skin Structure Change (D)", "Sonic Attack Ability", "Symbiotic Attachment", "Taller", "Taller", "Taller", "Taller", "Taller", "Total Carapace", "Ultravision", "Vision Defect (D)", "Vision Defect (D)", "Weight Decrease (D)", "Weight Decrease (D)", "Wings", "Roll a Good Mutation", "Roll a Good Mutation", "Roll a good Mutation", "Roll a Good Mutation", "Pick Any Mutation", "Pick Any Mutation", "Pick Any Mutation", "Pick Any Mutation", "Pick Any Mutation", "Pick Any Mutation"];
+
+			const humanoidPhysicalMutationArrayPositive = ["Chameleon Powers", "Density Control", "Electrical Generation", "Electrical Generation", "Gas Generation - Musk", "Gas Generation - Musk", "Heat Generation", "Heightened Balance", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution",  "Heightened Dexterity", "Heigthened Hearing", "Heightened Precision", "Heightened Smell", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Taste", "Heightened Touch", "Heightened Vision", "Increased Speed", "Increased Speed", "Increased Speed", "Infravision", "Light Generation", "Multiple Body Parts", "Multiple Body Parts", "New Body Parts", "New Body Pats", "New Body Parts", "New Body Parts", "New Body Parts", "Oversized Body Parts", "Partial Carapace", "Photosynthetic Skin", "Photosynthetic Skin", "Physical Reflection", "Quills/Spines", "Radiated Eyes","Radiated Eyes", "Regeneration", "Regeneration", "Shapechange", "Shorter", "Shorter", "Shorter", "Shorter", "Sonic Attack Ability", "Symbiotic Attachment", "Taller", "Taller", "Taller", "Taller", "Taller", "Total Carapace", "Ultravision", "Wings"];
+
+
+			const animalPhysicalMutationArray = ["Attraction Odor (D)", "Attraction Odor (D)","Body Structure Change (D)", "Chameleon Powers", "Chameleon Powers", "Chameleon Powers",  "Density Control", "Diminished Sense (D)", "Double Physical Pain (D)", "Electrical Generation", "Electrical Generation", "Fat Cell Accumulation (D)", "Gas Generation - Musk", "Heat Generation", "Heightened Balance", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution", "Heightened Constituton", "Heightened Dexterity", "Heigthened Hearing", "Heightened Precision", "Heightened Smell", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Taste", "Heightened Taste", "Heightened Taste", "Heightened Touch", "Heightened Vision", "Hemophilia (D)", "Hemophilia (D)", "Increased Metabolism (D)", "Increased Speed", "Increased Speed", "Infravision", "Infravision", "Light Generation", "Multiple Body Parts", "Multiple Body Parts", "Multiple Body Parts",  "New Body Parts", "New Body Parts", "No Resistance to Bacteria (D)", "No Resistance to Poison (D)","No Sensory Nerve Endings (D)", "No Sensory Nerve Endings (D)", "Oversized Body Parts", "Partial Carapace", "Partial Carapace", "Partial Carapace", "Partial Carapace", "Photosynthetic Skin", "Photosynthetic Skin", "Photosynthetic Skin", "Photosynthetic Skin", "Physical Reflection", "Poor Respiratory System (D)", "Quills/Spines", "Radiated Eyes", "Regeneration", "Regeneration", "Regeneration", "Shapechange", "Shorter", "Shorter", "Shorter", "Skin Structure Change (D)", "Sonic Attack Ability", "Symbiotic Attachment", "Taller", "Taller", "Taller", "Taller", "Taller", "Taller", "Taller", "Taller", "Total Carapace", "Ultravision", "Ultravision", "Ultravision", "Vision Defect (D)", "Weight Decrease (D)", "Wings",  "Wings", "Roll a Good Mutation", "Roll a Good Mutation", "Roll a good Mutation", "Roll a Good Mutation", "Pick Any Mutation", "Pick Any Mutation", "Pick Any Mutation", "Pick Any Mutation", "Pick Any Mutation", "Pick Any Mutation"];
+
+			const animalPhysicalMutationArrayPositive = ["Chameleon Powers", "Chameleon Powers", "Chameleon Powers",  "Density Control", "Electrical Generation", "Electrical Generation", "Gas Generation - Musk", "Heat Generation", "Heightened Balance", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution", "Heightened Constitution", "Heightened Constituton", "Heightened Dexterity", "Heigthened Hearing", "Heightened Precision", "Heightened Smell", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Strength", "Heightened Taste", "Heightened Taste", "Heightened Taste", "Heightened Touch", "Heightened Vision", "Increased Speed", "Increased Speed", "Infravision", "Infravision", "Light Generation", "Multiple Body Parts", "Multiple Body Parts", "Multiple Body Parts",  "New Body Parts", "New Body Parts", "Oversized Body Parts", "Partial Carapace", "Partial Carapace", "Partial Carapace", "Partial Carapace", "Photosynthetic Skin", "Photosynthetic Skin", "Photosynthetic Skin", "Photosynthetic Skin", "Physical Reflection", "Quills/Spines", "Radiated Eyes", "Regeneration", "Regeneration", "Regeneration", "Shapechange", "Shorter", "Shorter", "Shorter", "Sonic Attack Ability", "Symbiotic Attachment", "Taller", "Taller", "Taller", "Taller", "Taller", "Taller", "Taller", "Taller", "Total Carapace", "Ultravision", "Ultravision", "Ultravision", "Wings",  "Wings"];
+
+			const humanoidMentalMutationArray = ["Absorption", "Anti-reflection (D)", "Anti-reflection (D)", "Complete Mental Block (D)",  "Complete Mental Block (D)", "Complete Mental Block (D)", "Complete Mental Block (D)", "Complete Mental Block (D)", "Cryokinesis", "Death Field Generation", "De-evolution", "De-evolution", "Density Control (others)", "Directional Sense", "Dual Bain", "Empathy", "Fear Impulse (D)", "Fear Impulse(D)", "Fear Impulse (D)", "Fear Impulse (D)", "Fear Impulse (D)", "Force Field Generation", "Force Field Generation", "Force Field Generation", "Genius Capability", "Heightened Brain Talent", "Heightened Brian Talent",  "Heightened Brain Talent", "Heightened Brain Talent", "Heightened Brain Talent", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Ingelligence", "Heightened Intelligence", "Hositlity Field (D)", "Hostility Field (D)", "Hostility Field (D)", "Hostility Field (D)", "Hostility Field (D)", "Illusion Gneration", "Intuition", "Life Leech", "Life Leech", "Life Leech", "Life Leech", "Life Leech", "Light Wave Manipulation", "Magnetic Control", "Mass Mind", "Mental Blast", "Mental Blast", "Mental Blast", "Mental Control", "Mental Control over Physical State", "Mental Defenselessness (D)", "Mental Defenselessness (D)", "Mental Defense Shield", "Molecular Disruption", "Molecular Understanding", "Molecular Understanding", "Multiple Damage (D)", "Multiple Damage (D)", "Multiple Damage (D)", "Planar Travel", "Poor Dual Brain (D)", "Poor Dual Brain (D)", "Poor Dual Brain (D)", "Precognition", "Pyrokinesis", "Radar/Sonar", "Reflection", "Repulsion Field", "Sound Imitation", "Telekinesis", "Telekinesis", "Telekinesis", "Telekinitic Arm", "Telekinetic Flight", "Telepathy", "Teleportation", "Thought Imitation", "Time Field Manipulation", "Total Healing", "Weather Manipulation", "Will Force", "Will Force", "Will Force", "Will Force", "Will Force", "Roll a Good Mutation", "Roll a Good Mutation", "Roll a Good Mutation", "Roll a Good Mutation", "Pick Any Mutation" ];
+
+			const humanoidMentalMutationArrayPositive = ["Absorption", "Cryokinesis", "Death Field Generation", "De-evolution", "De-evolution", "Density Control (others)", "Directional Sense", "Dual Bain", "Empathy","Force Field Generation", "Force Field Generation", "Force Field Generation", "Genius Capability", "Heightened Brain Talent", "Heightened Brian Talent",  "Heightened Brain Talent", "Heightened Brain Talent", "Heightened Brain Talent", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Ingelligence", "Heightened Intelligence", "Illusion Gneration", "Intuition", "Life Leech", "Life Leech", "Life Leech", "Life Leech", "Life Leech", "Light Wave Manipulation", "Magnetic Control", "Mass Mind", "Mental Blast", "Mental Blast", "Mental Blast", "Mental Control", "Mental Control over Physical State", "Mental Defense Shield", "Molecular Disruption", "Molecular Understanding", "Molecular Understanding", "Planar Travel", "Precognition", "Pyrokinesis", "Radar/Sonar", "Reflection", "Repulsion Field", "Sound Imitation", "Telekinesis", "Telekinesis", "Telekinesis", "Telekinitic Arm", "Telekinetic Flight", "Telepathy", "Teleportation", "Thought Imitation", "Time Field Manipulation", "Total Healing", "Weather Manipulation", "Will Force", "Will Force", "Will Force", "Will Force", "Will Force", "Roll a Good Mutation", "Roll a Good Mutation", "Roll a Good Mutation", "Roll a Good Mutation", "Pick Any Mutation" ];
+
+			const animalMentalMutationArray = ["Absorption", "Anti-reflection (D)", "Anti-reflection (D)", "Complete Mental Block (D)", "Complete Mental Block (D)", "Complete Mental Block (D)", "Cryokinesis", "Death Field Generation", "De-evolution", "De-evolution", "De-evolution", "Density Control (others)", "Directional Sense", "Directional Sense", "Directional Sense",  "Dual Bain", "Empathy", "Fear Impulse (D)", "Fear Impulse (D)", "Fear Impulse (D)", "Force Field Generation", "Force Field Generation", "Force Field Generation", "Force Field Generation", "Genius Capability", "Heightened Brain Talent", "Heightened Brian Talent", "Heightened Brain Talent", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Ingelligence", "Heightened Intelligence", "Hostility Field (D)", "Illusion Generation", "Intuition", "Intuition", "Intuition", "Intuition",  "Life Leech", "Life Leech", "Life Leech","Light Wave Manipulation", "Magnetic Control", "Mass Mind", "Mental Blast", "Mental Control", "Mental Control over Physical State", "Mental Defenselessness (D)", "Mental Defenselessness (D)", "Dental Defenselessness (D)", "Mental Defense Shield", "Mental Defense Shiled", "Mental Defense Shiled", "Mental Defense Shield", "Mental Defense Shield",  "Molecular Disruption", "Molecular Understanding", "Multiple Damage (D)", "Multiple Damage (D)", "Multiple Damage (D)", "Planar Travel", "Poor Dual Brain (D)", "Poor Dual Brain (D)", "Poor Dual Brain (D)", "Precognition", "Pyrokinesis", "Radar/Sonar", "Reflection", "Repulsion Field", "Sound Imitation", "Telekinesis", "Telekinitic Arm", "Telekinetic Flight", "Telepathy", "Teleportation", "Thought Imitation", "Time Field Manipulation", "Total Healing", "Weather Manipulation", "Will Force", "Will Force", "Will Force", "Will Force", "Will Force", "Roll a Good Mutation", "Roll a Good Mutation", "Roll a Good Mutation", "Roll a Good Mutation", "Pick Any Mutation" ];
+
+                        const animalMentalMutationArrayPositive = ["Absorption", "Cryokinesis", "Death Field Generation", "De-evolution", "De-evolution", "De-evolution", "Density Control (others)", "Directional Sense", "Directional Sense", "Directional Sense",  "Dual Bain", "Empathy", "Force Field Generation", "Force Field Generation", "Force Field Generation", "Force Field Generation", "Genius Capability", "Heightened Brain Talent", "Heightened Brian Talent", "Heightened Brain Talent", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Intelligence", "Heightened Ingelligence", "Heightened Intelligence", "Illusion Generation", "Intuition", "Intuition", "Intuition", "Intuition",  "Life Leech", "Life Leech", "Life Leech","Light Wave Manipulation", "Magnetic Control", "Mass Mind", "Mental Blast", "Mental Control", "Mental Control over Physical State", "Mental Defense Shield", "Mental Defense Shield", "Mental Defense Shield", "Mental Defense Shield", "Mental Defense Shield",  "Molecular Disruption", "Molecular Understanding", "Planar Travel", "Precognition", "Pyrokinesis", "Radar/Sonar", "Reflection", "Repulsion Field", "Sound Imitation", "Telekinesis", "Telekinitic Arm", "Telekinetic Flight", "Telepathy", "Teleportation", "Thought Imitation", "Time Field Manipulation", "Total Healing", "Weather Manipulation", "Will Force", "Will Force", "Will Force", "Will Force", "Will Force" ];
+
+			let returnMutation = "test";
+
+			if ( cType == "Humanoid"){
+				if ( mType == "phys") {
+					if ( dFlag == "0") {
+						let roll = oneDHundred();
+						if (roll < 91 || roll > 94) { 
+							returnMutation = humanoidPhysicalMutationArray[roll - 1];
+						}
+						else {
+							roll = parseInt (Math.random() * humanoidPhysicalMutationArrayPositive.length);
+							returnMutation = humanoidPhysicalMutationArrayPositive[roll];
+						}
+					}
+					else if ( dFlag == "1") {
+						let roll = parseInt (Math.random() * humanoidPhysicalMutationArrayPositive.length);
+						returnMutation = humanoidPhysicalMutationArrayPositive[roll];
+					}
+					else {
+						returnMutation = "Whoops, 1";
+					}
+				}
+				else if ( mType == "ment") {
+					if ( dFlag == "0") {
+						let roll = oneDHundred();
+						if (roll < 96 || roll > 99) {
+							returnMutation = humanoidMentalMutationArray[roll - 1];
+						}
+						else {
+							roll = parseInt (Math.random() * humanoidMentalMutationArrayPositive.length);
+							returnMutation = humanoidMentalMutationArrayPositive[roll];
+						}
+					}
+					else {
+						returnMutation = "Whoops, 2" ;
+					}
+				}
+				else {	
+					returnMutation = "whoops, 3";
+				}
+			}
+			else if ( cType == "Mutant Animal"){
+				if ( mType == "phys") {
+	                                if ( dFlag == "0") {
+                                                let roll = oneDHundred();
+                                                if (roll < 91 || roll > 94) { 
+                                                        returnMutation = animalPhysicalMutationArray[roll - 1];
+                                                }
+                                                else {
+                                                        roll = parseInt (Math.random() * animalPhysicalMutationArrayPositive.length);
+                                                        returnMutation = animalPhysicalMutationArrayPositive[roll];
+                                                }
+                                        }
+                                        else if ( dFlag == "1") {
+                                                let roll = parseInt (Math.random() * animalPhysicalMutationArrayPositive.length);
+                                                returnMutation = animalPhysicalMutationArrayPositive[roll];
+                                        }
+                                        else {
+                                                returnMutation = "Whoops, 4";
+                                        }
+
+				}
+
+				else if ( mType == "ment") {
+                                        if ( dFlag == "0") {
+                                                let roll = oneDHundred();
+                                                if (roll < 96 || roll > 99) {
+                                                        returnMutation = animalMentalMutationArray[roll - 1];
+                                                }
+                                                else {
+                                                        roll = parseInt (Math.random() * animaleMentalMutationArrayPositive.length);
+                                                        returnMutation = animalMentalMutationArrayPositive[roll];
+                                                }
+                                        }
+                                        else {
+                                       	returnMutation = "Whoops, 2" ;
+                                        }
+                                }
+                                else {
+                                	returnMutation =" Whoops,6";
+                                }
+			}
+			else {
+			returnMutation = "Whoops,7";
+			}
+
+			return returnMutation;
+		}
+
+		function mutations(input) {
+			
+			let charType = input;
+			let firstMutation = document.getElementById("firstMutation");
+		
+			let physQuantity = oneDFour();
+			let mentQuantity = oneDFour();
+
+			if (charType == "Pure Strain Human"){
+				firstMutation.innerHTML = "You are a Pure Strain Human and have no mutations. Robots and machines of pre-2322 society will recognize you. Additionally, add three to your charisma.";
+			} else if (charType == "Humanoid"){
+				firstMutation.innerHTML = "You are Humanoid, and have " + physQuantity + " physical mutations and " + mentQuantity + " mental mutations.";
+			
+				let mutationString = "";
+				
+				for ( let i = 0; i < physQuantity; i++) {
+					if (physQuantity == 1){
+						mutationString = "Your physical mutation is: " + getMutation("Humanoid", "phys", "0") + ".";
+					}
+					else if (i == 0) {
+						mutationString = mutationString + "Your physical mutations are: " + getMutation("Humanoid", "phys", "0");
+					}
+					else if (i == parseInt (physQuantity - 1)) {
+						mutationString = mutationString  + ", and " + getMutation("Humanoid", "phys", "0") + ".";
+
+					}
+					else {
+						mutationString = mutationString +", " + getMutation("Humanoid", "phys","0");
+					}
+				}
+				let showMutation = document.getElementById("showMutation");
+				showMutation.innerHTML = mutationString;
+				mutationString = "" ;	
+			
+				for ( let i = 0; i < mentQuantity; i++) {
+					if (mentQuantity == 1 ){
+                                                mutationString = "Your mental mutation is: " + getMutation("Humanoid", "ment", "0") + ".";
+                                        }
+                                        else if (i == 0) {
+                                                mutationString = mutationString + "Your mental mutations are: " + getMutation("Humanoid", "ment", "0");
+                                        }
+                                        else if (i == parseInt (mentQuantity - 1)) {
+                                                mutationString  = mutationString + ", and " + getMutation("Humanoid", "ment", "0") + ".";
+                                        }
+                                        else {
+                                                mutationString = mutationString + ", " + getMutation("Humanoid", "ment", "0");
+                                        } 
+
+				}
+
+				let showMentalMutation = document.getElementById("showMentalMutation");
+				showMentalMutation.innerHTML = mutationString;
+			}
+			else {
+				firstMutation.innerHTML = "You are a Mutant Animal, and have " + physQuantity + " physical mutations and " + mentQuantity + " mental mutations.";
+
+				let mutationString = "";
+
+				for ( let i = 0; i < physQuantity; i++) {
+
+					if (physQuantity == 1 ){
+						mutationString = "Your physical Mutation is: " + getMutation("Mutant Animal", "phys", "0") + ".";
+					}
+					else if (i == 0) {
+						mutationString = mutationString + "Your physical mutations are: " + getMutation("Mutant Animal", "phys", "0");
+					}
+					else if (i == parseInt (physQuantity - 1)) {
+						mutationString  = mutationString + ", and " + getMutation("Mutant Animal", "phys", "0") + ".";
+					}
+					else {
+						mutationString = mutationString + ", " + getMutation("Mutant Animal", "phys", "0");
+					} 
+				}
+				
+				let showMutation = document.getElementById("showMutation");
+				showMutation.innerHTML = mutationString;					
+
+				
+				mutationString = "" ;   
+                        
+                                for ( let i = 0; i < mentQuantity; i++) {
+                                        if (mentQuantity == 1 ){
+                                                mutationString = "Your mental mutation is: " + getMutation("Mutant Animal", "ment", "0") + ".";
+                                        }
+                                        else if (i == 0) {
+                                                mutationString = mutationString + "Your mental mutations are: " + getMutation("Mutant Animal", "ment", "0");
+                                        }
+                                        else if (i == parseInt (mentQuantity - 1)) {
+                                                mutationString  = mutationString + ", and " + getMutation("Mutant Animal", "ment", "0") + ".";
+                                        }
+                                        else {
+                                                mutationString = mutationString + ", " + getMutation("Mutant Animal", "ment", "0");
+                                        } 
+
+                                }
+
+                                let showMentalMutation = document.getElementById("showMentalMutation");
+                                showMentalMutation.innerHTML = mutationString;
+
+
+			}
+			
+		}
+	
+		window.addEventListener("load", myInit, true); function myInit(){
+			let charType = randomCharType();
+			randomDesc();
+			randomAttributes();
+			attributeModifier();
+			mutations(charType);
+			
+		} 
+	</script>
+	<body>
+		<p>
+		Welcome now to Gamma Snack. Welcome to the end the old world and the beginning of the new. Welcome to Pud. </p>
+		<p>You are but one of many, an occupant of the settlement of Pud.</p>
+		<!--Give the header an ID so it's easy to work with in the JS code -->
+		<h1 id = "shownType"></h1>
+		<h4 id = "shownDesc"></h4>
+		<br>
+		<h3 id = "showAttributesFirst"></h3>
+		<h3 id = "showAttributesSecond"></h3>
+		<h3 id = "showAttributesThird"></h3>
+		<br>
+		<h4 id = "showHitPoints"></h4>
+
+
+		<p id = "firstMutation"></p>
+		<p id = "showMutation"></p>
+		<p id = "showMentalMutation"></p>
+		<p id = "showTest"></p>
+		
+		<br>
+		<h4>Equipment List:</h4>
+		<p>Shame Lanyard</p>
+	</body>
+</html>
